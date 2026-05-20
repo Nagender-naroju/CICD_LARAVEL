@@ -1,0 +1,20 @@
+name: Laravel_CICD
+on: ["push", "workflow_dispatch"]
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+      - name: Setup the PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: pdo_mysql, bcmath, mbstring, dom, tokenizer, xmlwriter, xmlreader
+      - name: Copy the env
+        run: cp .env.example .env
+      - name: Install Dependencies
+        run: composer install
+      - name: Test the Application
+        run: php artisan test
