@@ -1,0 +1,41 @@
+services:
+  app:
+    build: .
+    container_name: laravel_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor
+    restart: always
+
+  mysql:
+    image: mysql:8
+    container_name: laravel_mysql
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: naroju@14192
+      MYSQL_DATABASE: CICD_Laravel
+      MYSQL_USER: naroju
+      MYSQL_PASSWORD: naroju@14192
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: laravel_phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
