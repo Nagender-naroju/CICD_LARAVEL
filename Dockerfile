@@ -35,6 +35,8 @@ RUN composer install --no-dev --no-scripts --no-autoloader
 COPY . .
 
 # Give permissions
+RUN chown -R www-data:www-data /var/www/html
+
 RUN chmod -R 777 storage bootstrap/cache
 
 # Run as non-root
