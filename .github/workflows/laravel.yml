@@ -7,17 +7,32 @@ jobs:
     steps:
       - name: Checkout The code
         uses: actions/checkout@v4
+
       - name: Setup The PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
           extensions: pdo_mysql, bcmath, mbstring, dom, tokenizer, xmlwriter, xmlreader
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Copy The Env
         run: cp .env.example .env
+
       - name: Install Dependencies
         run: composer install
+
+      - name: Install NPM Dependencies
+        run: npm install
+
+      - name: Build Frontend Assets
+        run: npm run build
+
       - name: Generate APP Key
         run: php artisan key:generate
+
       - name: Create SQLite Database
         run: |
           mkdir -p database
@@ -34,6 +49,7 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: php artisan test
+
       - name: Login to Docker Hub
         uses: docker/login-action@v4
         with:
