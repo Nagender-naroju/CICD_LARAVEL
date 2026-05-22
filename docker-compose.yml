@@ -1,6 +1,6 @@
 services:
   app:
-    build: .
+    build: nag123456/laravel_cicd:latest
     container_name: laravel_app
     ports:
       - "8000:8000"
