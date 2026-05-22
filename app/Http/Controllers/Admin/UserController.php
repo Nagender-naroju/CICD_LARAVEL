@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function users()
     {
-        $title = "Admin | Users";
+        $title = "Admin | Users Management";
         $users = User::paginate(10);
         return view('Admin.users', compact('title', 'users'));
     }
